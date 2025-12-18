@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:replace="~{base :: parent(~{::#content})}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+        This the Page of service also this page is calling Basthtml fragment 
 </head>
 <body>
-    <!--Using the Fragment -->
-<h1>Thsi is S!!ervice page</h1>
-<div class="host-tag" th:insert="~{base :: parent(Mahessh,Dineshhh)}"></div>
-
+<div id="content">  This the Divvv </div>  
+<section id="content">
+    <h1>Welcoeme to Service section</h1>
+<h1>Services offer by SCM</h1></section>
 </body>
 </html>
