@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" th:replace="~{base :: parent(~{::#content})}">
+<html lang="en" th:replace="~{base :: parent(~{::#content}, ~{::title},~{::script})}">
 <head>
-        This the Page of service also this page is calling Basthtml fragment 
+<title >Service Page!! </title>
 </head>
 <body>
 <div id="content">  This the Divvv </div>  
 <section id="content">
     <h1>Welcoeme to Service section</h1>
 <h1>Services offer by SCM</h1></section>
+<script>
+    console.log("This is service script!");
+</script>
 </body>
 </html>

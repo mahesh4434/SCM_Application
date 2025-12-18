@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html 
-lang="en" th:fragment="parent(content)" xmlns:th="http://www.thymeleaf.org">
+lang="en" th:fragment="parent(content,title,script)" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base page</title>
+    <title data-th-replace="${title}">SCM</title>
     <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
 </head>
@@ -15,5 +15,6 @@ lang="en" th:fragment="parent(content)" xmlns:th="http://www.thymeleaf.org">
 <section data-th-replace="${content}"></section>
     <!--Flowbite  javascript-->
  <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+ <th:block data-th-replace="${script}"></th:block>
 </body>
 </html>
