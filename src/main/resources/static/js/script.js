@@ -4,6 +4,8 @@ let currentTheme = getTheme();
 changeTheme(currentTheme);
 
 function changeTheme() {
+    //set to webpage 
+    document.querySelector('html').classList.add(currentTheme);
 
 }
 
