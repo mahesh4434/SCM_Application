@@ -8,11 +8,30 @@ lang="en" th:fragment="parent(content,title,script)" xmlns:th="http://www.thymel
     <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
 </head>
-<body>
+<body class="p-4">
+    <!--Comman Header-->
+    <ul>
+        <li>
+            <a data-th-href="@{'/home'}">Home</a>
+        </li>
+        <li>
+            <a data-th-href="@{'/about'}">About</a>
+        </li>
+        <li>
+            <a data-th-href="@{'/services'}">Services</a>
+        </li>
+    </ul>
     Hello mahesh
     <!-- Main Content -->
 
-<section data-th-replace="${content}"></section>
+<div class="p-4">
+    <section data-th-replace="${content}"></section>
+</div>
+<!--Common Footer-->
+
+<footer class="p-4">
+    Footer: Learn Code With Mahesh
+</footer>
     <!--Flowbite  javascript-->
  <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
  <th:block data-th-replace="${script}"></th:block>
