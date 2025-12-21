@@ -2,7 +2,12 @@ package com.scm.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.scm.forms.UserForm;
 
 @Controller
 public class pageController {
@@ -52,9 +57,30 @@ public class pageController {
 
   // Controller for Login
   @RequestMapping("/register")
-  public String aboutRegisterPage() {
-    System.out.println("Register Page loading!!");
+  public String aboutRegisterPage(Model model) {
+    UserForm userForm = new UserForm();
+    // Ya madhe tumhi default data pn add kru shkta!!
+    model.addAttribute("userForm", userForm);
+
     return "register";
+
+  }
+
+  // Processing Register
+  @RequestMapping(value = "/do-register", method = RequestMethod.POST)
+  public String processRegister(@ModelAttribute UserForm userForm) {
+    System.out.println("Processing Registration!!!");
+
+    // 1) Fetch data from request
+    // UserForm navacha ek class banvun tya madhe data fetch karel
+    System.out.println(userForm);
+    // Validaate form data
+    // Save to database
+    // Ya sathi ek userService navachi method user karel ki ji USer che sagel
+    // databse che bussinesslogic execute karel
+    // message= " Registration sucessfull!;"
+    // redirect to same register page
+    return "redirect:/register";
 
   }
 }
