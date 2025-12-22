@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) {
-   userRepo.findById(user.getUserId()).orElseThrow()->new ResourceNotFoundException("User Not Found");
+   userRepo.findById(user.getUserId()).orElseThrow()->new resourseNotFoundException("User Not Found");
     }
 
     @Override
