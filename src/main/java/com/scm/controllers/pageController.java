@@ -78,6 +78,7 @@ public class pageController {
     // Save to database
     // Ya sathi ek userService navachi method user karel ki ji USer che sagel
     // databse che bussinesslogic execute karel
+
     // message= " Registration sucessfull!;"
     // redirect to same register page
     return "redirect:/register";
