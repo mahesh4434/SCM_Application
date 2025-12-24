@@ -2,6 +2,7 @@ package com.scm.services.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scm.entities.User;
+import com.scm.helper.DataNotFound;
 import com.scm.repositories.UserRepo;
 import com.scm.services.UserService;
 
@@ -22,6 +24,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
+        // For new User userid We have to generate
+        String userId = UUID.randomUUID().toString();
+        user.setUserId(userId);
         return userRepo.save((user));
     }
 
@@ -32,31 +37,53 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) {
-   userRepo.findById(user.getUserId()).orElseThrow()->new resourseNotFoundException("User Not Found");
+        User user2 = userRepo.findById(user.getUserId())
+                .orElseThrow(() -> new DataNotFound("User Not Found With th Id = " + user.getUserId()));
+        // Ata ith user2 kade already presnt vala user cha data ahe ki jyala aplyala
+        // update karycha ahe
+        // Tar mg apn ata user ki jo updateUSer la as a parametre ala ahe tyala apn
+        // user2 barobr update kru
+        user2.setName(user.getName());
+        user2.setEmail(user.getEmail());
+        user2.setPassword(user.getPassword());
+        user2.setAbout(user.getAbout());
+        user2.setPhoneNumber(user.getPhoneNumber());
+        user2.setProfilePic(user.getProfilePic());
+        user2.setEnabled(user.isEnabled());
+        user2.setEmailVerified(user.isEmailVerified());
+        user2.setPhoneVerified(user.isPhoneVerified());
+        user2.setProvider(user.getProvider());
+        user2.setProviderUserId(user.getProviderUserId());
+
+        // Save the user to the database
+        User save = userRepo.save(user2);
+        return save;
     }
 
     @Override
     public void deleteUser(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteUser'");
+        User user2 = userRepo.findById(id)
+                .orElseThrow(() -> new DataNotFound("User Not Found With th Id = " + id));
+        userRepo.delete(user2);
     }
 
     @Override
     public boolean isUserExist(String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isUserExist'");
+        User user2 = userRepo.findById(userId).orElse(null);
+        return user2 != null ? true : false;
+
     }
 
     @Override
     public boolean isUserExistByEmail(String email) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isUserExistByEmail'");
+        User user = userRepo.findByEmail(email).orElse(null);
+        return user != null ? true : false;
+
     }
 
     @Override
     public List<User> getAllUsers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllUsers'");
+        return userRepo.findAll();
     }
 
 }

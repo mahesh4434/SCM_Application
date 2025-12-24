@@ -1,5 +1,6 @@
 package com.scm.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -7,10 +8,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.scm.entities.User;
 import com.scm.forms.UserForm;
+import com.scm.helper.Message;
+import com.scm.helper.MessageType;
+import com.scm.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class pageController {
+
+  @Autowired
+  private UserService userService;
 
   @RequestMapping("/home")
   public String home(Model model) {
@@ -68,7 +78,7 @@ public class pageController {
 
   // Processing Register
   @RequestMapping(value = "/do-register", method = RequestMethod.POST)
-  public String processRegister(@ModelAttribute UserForm userForm) {
+  public String processRegister(@ModelAttribute UserForm userForm, HttpSession session) {
     System.out.println("Processing Registration!!!");
 
     // 1) Fetch data from request
@@ -76,9 +86,32 @@ public class pageController {
     System.out.println(userForm);
     // Validaate form data
     // Save to database
+    // Ithe apn user from se ek user banaya hai!
+    /*
+     * User user = User.builder()
+     * .name(userForm.getName())
+     * .email(userForm.getEmail())
+     * .password(userForm.getPassword())
+     * .about(userForm.getAbout())
+     * .phoneNumber(userForm.getPhoneNumber())
+     * .profilePic(
+     * "https://www.freepik.com/free-vector/user-circles-set_145856997.htm#fromView=keyword&page=1&position=2&uuid=3d6cd15c-4824-40e5-893d-7084dc20fa3c&query=Default+user")
+     * .build();
+     */
+
+    User user = new User();
+    user.setName(userForm.getName());
+    user.setEmail(userForm.getEmail());
+    user.setPassword(userForm.getPassword());
+    user.setAbout(userForm.getAbout());
+    user.setProfilePic(
+        "https://www.freepik.com/free-vector/user-circles-set_145856997.htm#fromView=keyword&page=1&position=2&uuid=3d6cd15c-4824-40e5-893d-7084dc20fa3c&query=Default+user");
+    userService.saveUser(user);
+    System.out.println(" Registration sucessfull!;");
     // Ya sathi ek userService navachi method user karel ki ji USer che sagel
     // databse che bussinesslogic execute karel
-
+    Message message = Message.builder().content("Registration Sucessfull!").type(MessageType.green).build();
+    session.setAttribute("message", message);
     // message= " Registration sucessfull!;"
     // redirect to same register page
     return "redirect:/register";
