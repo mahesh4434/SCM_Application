@@ -1,8 +1,11 @@
 package com.scm.controllers;
 
+import javax.naming.Binding;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +18,7 @@ import com.scm.helper.MessageType;
 import com.scm.services.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class pageController {
@@ -78,13 +82,17 @@ public class pageController {
 
   // Processing Register
   @RequestMapping(value = "/do-register", method = RequestMethod.POST)
-  public String processRegister(@ModelAttribute UserForm userForm, HttpSession session) {
+  public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult rBindingResult,
+      HttpSession session) {
     System.out.println("Processing Registration!!!");
 
     // 1) Fetch data from request
     // UserForm navacha ek class banvun tya madhe data fetch karel
     System.out.println(userForm);
     // Validaate form data
+    if (rBindingResult.hasErrors()) {
+      return "register";
+    }
     // Save to database
     // Ithe apn user from se ek user banaya hai!
     /*
