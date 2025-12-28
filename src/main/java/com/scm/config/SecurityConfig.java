@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     // User create and login using java code with ih memory sevice
@@ -48,6 +51,9 @@ public class SecurityConfig {
      */
     @Autowired
     private SecurityCustomUserDetailService userDetailService;
+
+    @Autowired
+    private OAuthAuthenticationSucessHandler oAuthAuthenticationSucessHandler;
 
     // Configuration of Authentication Provider
     @Bean
@@ -77,7 +83,7 @@ public class SecurityConfig {
             formLogin.loginPage("/login");
             formLogin.loginProcessingUrl("/authenticate");
             formLogin.successForwardUrl("/user/dashboard");
-            formLogin.failureForwardUrl("/login?error=true");
+            // formLogin.failureForwardUrl("/login?error=true");
             formLogin.usernameParameter("email");
             formLogin.passwordParameter("password");
             /*
@@ -109,9 +115,21 @@ public class SecurityConfig {
              * 
              * });
              */
-        }
+        });
 
-        );
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        httpSecurity.logout(logoutForm -> {
+
+            logoutForm.logoutUrl("/do-logout");
+            logoutForm.logoutSuccessUrl("/login?logout=true");
+        });
+
+        // OAuth Configurations
+
+        httpSecurity.oauth2Login(oAuth -> {
+            oAuth.loginPage("/login");
+            oAuth.successHandler(oAuthAuthenticationSucessHandler);
+        });
         return httpSecurity.build();
 
     }
