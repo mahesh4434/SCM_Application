@@ -86,6 +86,7 @@ public class pageController {
 
   }
 
+  // Do registration process registration
   // Processing Register
   @RequestMapping(value = "/do-register", method = RequestMethod.POST)
   public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult rBindingResult,
