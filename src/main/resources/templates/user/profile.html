@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title data-th-text="${loggedInUser.name}+' | SCM '">Profile Page </title>
 </head>
 
 <body>
-    <h1>Thsi one User profileee</h1>
-    <h1 data-th-text="${loggedInUser.name}"></h1>
-    <h1 data-th-text="${loggedInUser.email}"></h1>
+    <div id="content"> Welcome to profile page</div>
+    <script>
+        console.log("Thsi is the profile page!")
+    </script>
 </body>
 
 </html>
